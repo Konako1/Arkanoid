@@ -1,7 +1,0 @@
-bin/
-obj/
-/packages/
-*.resx
-.vs/Arcanoid/v16/.suo
-.vs/Arcanoid/v16/Server/sqlite3/db.lock
-.vs/Arcanoid/v16/Server/sqlite3/storage.ide
