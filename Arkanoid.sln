@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcanoid", "Arcanoid\Arcanoid.csproj", "{9F5AC237-DE67-442D-BEBF-C9225652422B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanoid", "Arkanoid\Arkanoid.csproj", "{9F5AC237-DE67-442D-BEBF-C9225652422B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
