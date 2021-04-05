@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Konako\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Konako\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Arcanoid.177368956.00" t="ExcludeRecursive" />
-    <e p="C:\Users\Konako\Desktop\Хацкерство\Arcanoid\Arcanoid" t="IncludeFlat">
-      <e p="Arcanoid" t="IncludeRecursive">
+    <e p="C:\Users\konak\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\konak\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_Arcanoid.2083874030.00" t="ExcludeRecursive" />
+    <e p="C:\Users\konak\Desktop\a\Хацкерство\Arkanoid\Arkanoid" t="IncludeFlat">
+      <e p="Arcanoid.sln" t="IncludeFlat" />
+      <e p="Arkanoid" t="IncludeRecursive">
         <e p="App.config" t="Include" />
-        <e p="Arcanoid.csproj" t="IncludeRecursive" />
+        <e p="Arkanoid.csproj" t="IncludeRecursive" />
+        <e p="Ball.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Form1.cs" t="Include" />
         <e p="Form1.Designer.cs" t="Include" />
         <e p="Form1.resx" t="Include" />
+        <e p="Levels.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
@@ -20,8 +23,8 @@
           <e p="Settings.Designer.cs" t="Include" />
           <e p="Settings.settings" t="Include" />
         </e>
+        <e p="Tile.cs" t="Include" />
       </e>
-      <e p="Arcanoid.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />
     </e>
   </component>
