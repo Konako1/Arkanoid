@@ -1,6 +1,6 @@
-﻿using Arcanoid.Properties;
+﻿using rndomNamespace.Properties;
 
-namespace Arcanoid
+namespace rndomNamespace
 {
     public class Platform
     {

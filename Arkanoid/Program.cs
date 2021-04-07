@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Arcanoid
+namespace rndomNamespace
 {
   static class Program
   {
@@ -17,8 +17,9 @@ namespace Arcanoid
     {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      GameModel game = new GameModel(1, 3);
-      Application.Run(new Arkanoid(game) {ClientSize = new Size(1000, 700), Text = "Arkanoid"});
+      
+            Application.Run(new Form2());
+           // Application.Run(new Arkanoid(game) {ClientSize = new Size(1000, 700), Text = "Arkanoid"});
     }
   }
 }

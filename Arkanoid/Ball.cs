@@ -1,4 +1,4 @@
-namespace Arcanoid
+namespace rndomNamespace
 {
     public class Ball
     {
