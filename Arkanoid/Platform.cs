@@ -4,17 +4,16 @@ namespace rndomNamespace
 {
     public class Platform
     {
-        private const int Width = 20;
-        private readonly int Height;
-        private static int Size;
+        private const int Height = 40;
+        private static int Width;
 
         public Platform (int difficulty)
         {
-            Size = 1;
-            if (difficulty == 0) Height = 200; //на каждую сложность своя длинна
-            if (difficulty == 1) Height = 150;
+            if (difficulty == 1) Width = 131; //на каждую сложность своя длинна
+            if (difficulty == 2) Width = 150;
         }
 
-        public int GetSize => Size;
+        public int GetHeight => Height;
+        public int GetWidth => Width;
     }
 }
