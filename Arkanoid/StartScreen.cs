@@ -15,23 +15,26 @@ namespace rndomNamespace
         public Form2()
         {
             InitializeComponent();
+            Size = new Size(800, 400);
+            StartPosition = FormStartPosition.CenterScreen;
+            //this.Authors_pictureBox.Image = new Bitmap(@"Arkanoid/GameplayComponents/authors.png");
         }
 
-        private void PictureBox2_Click_1(object sender, EventArgs e)
+        private void exit_Click(object sender, EventArgs e)
         {
-            GameModel game = new GameModel(1, 3);
-            var Form = new Arkanoid(game);
-            Form.Show();
+            Close();
         }
 
-        private void PictureBox3_Click(object sender, EventArgs e)
+        private void authors_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Сабирджанов Эдем и Худасов Иван", "Авторы");
         }
 
-        private void PictureBox4_Click(object sender, EventArgs e)
+        private void newGame_Click(object sender, EventArgs e)
         {
-            this.Close();
+            GameModel game = new GameModel(1, 3);
+            var Form = new Arkanoid(game);
+            Form.Show();
         }
     }
 }
