@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Arcanoid.Properties {
+namespace rndomNamespace.Properties {
     using System;
     
     
@@ -69,33 +69,13 @@ namespace Arcanoid.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap autors1 {
-            get {
-                object obj = ResourceManager.GetObject("autors1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
+
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap exit {
             get {
                 object obj = ResourceManager.GetObject("exit", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap exit1 {
-            get {
-                object obj = ResourceManager.GetObject("exit1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -119,33 +99,13 @@ namespace Arcanoid.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap newgame1 {
-            get {
-                object obj = ResourceManager.GetObject("newgame1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
+
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap waw {
             get {
                 object obj = ResourceManager.GetObject("waw", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap waw1 {
-            get {
-                object obj = ResourceManager.GetObject("waw1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
