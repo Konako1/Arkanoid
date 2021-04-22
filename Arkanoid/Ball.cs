@@ -3,7 +3,7 @@ namespace rndomNamespace
     public class Ball
     {
         private int _speed;
-        const int size = 20;
+        const int size = 40;
 
         public int Speed
         {
