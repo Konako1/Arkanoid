@@ -18,6 +18,7 @@ namespace rndomNamespace
         public readonly int BallSize;
         public GameModel(int difficulty, int level)
         {
+
             Level = level;
             
             Ball ball = new Ball(difficulty);
@@ -33,6 +34,8 @@ namespace rndomNamespace
     {
         public Arkanoid(GameModel gameModel)
         {
+            this.Width = 500;
+            this.Height = 500;
             GameModel game = gameModel;
             var centerX = ClientSize.Width;
             var centerY = ClientSize.Height;

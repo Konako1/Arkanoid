@@ -103,5 +103,8 @@
   <ItemGroup>
     <None Include="exit.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="reandom.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
