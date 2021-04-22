@@ -17,7 +17,6 @@ namespace rndomNamespace
             InitializeComponent();
             Size = new Size(800, 400);
             StartPosition = FormStartPosition.CenterScreen;
-            //this.Authors_pictureBox.Image = new Bitmap(@"Arkanoid/GameplayComponents/authors.png");
         }
 
         private void exit_Click(object sender, EventArgs e)
@@ -33,8 +32,9 @@ namespace rndomNamespace
         private void newGame_Click(object sender, EventArgs e)
         {
             GameModel game = new GameModel(1, 3);
-            var Form = new Arkanoid(game);
-            Form.Show();
+            var gameForm = new Arkanoid(game);
+            gameForm.Show();
+            Hide();
         }
     }
 }
