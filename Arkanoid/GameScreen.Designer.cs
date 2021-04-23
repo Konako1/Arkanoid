@@ -30,8 +30,10 @@
     {
       this.platform1 = new System.Windows.Forms.PictureBox();
       this.ball = new System.Windows.Forms.PictureBox();
+      this.timer1 = new System.Timers.Timer();
       ((System.ComponentModel.ISupportInitialize) (this.platform1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize) (this.ball)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize) (this.timer1)).BeginInit();
       this.SuspendLayout();
       // 
       // platform1
@@ -45,11 +47,18 @@
       // ball
       // 
       this.ball.BackColor = System.Drawing.Color.Transparent;
-      this.ball.Location = new System.Drawing.Point(259, 183);
+      this.ball.Location = new System.Drawing.Point(292, 236);
       this.ball.Name = "ball";
       this.ball.Size = new System.Drawing.Size(40, 40);
       this.ball.TabIndex = 1;
       this.ball.TabStop = false;
+      // 
+      // timer1
+      // 
+      this.timer1.Enabled = true;
+      this.timer1.Interval = 1D;
+      this.timer1.SynchronizingObject = this;
+      this.timer1.Elapsed += new System.Timers.ElapsedEventHandler(this.timer1_Elapsed);
       // 
       // Arkanoid
       // 
@@ -64,8 +73,11 @@
       this.Text = "Text";
       ((System.ComponentModel.ISupportInitialize) (this.platform1)).EndInit();
       ((System.ComponentModel.ISupportInitialize) (this.ball)).EndInit();
+      ((System.ComponentModel.ISupportInitialize) (this.timer1)).EndInit();
       this.ResumeLayout(false);
     }
+
+    private System.Timers.Timer timer1;
 
     private System.Windows.Forms.PictureBox ball;
 
