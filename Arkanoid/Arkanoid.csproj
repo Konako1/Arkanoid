@@ -98,6 +98,7 @@
     <Content Include="GameplayComponents\authors.png" />
     <Content Include="GameplayComponents\ball.png" />
     <Content Include="GameplayComponents\platform1.png" />
+    <Content Include="GameplayComponents\tile.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources" />
