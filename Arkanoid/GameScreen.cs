@@ -15,53 +15,60 @@ namespace rndomNamespace
 {
     public class GameModel
     {
-        public readonly int Level;
         public readonly int BallSpeed;
         public readonly int BallSize;
         public readonly int PlatformHeight;
         public readonly int PlatformWidth;
+        public readonly string[,] Level;
         public GameModel(int difficulty, int level)
         {
-            Level = level;
-            
             Ball ball = new Ball(difficulty);
             Platform platform = new Platform(difficulty);
-            
+            Levels levels = new Levels(level);
+
             BallSpeed = ball.Speed;
             BallSize = ball.Size;
             
             PlatformHeight = platform.GetHeight;
             PlatformWidth = platform.GetWidth;
+
+            Level = levels.Level;
         }
     }
 
     public partial class Arkanoid : Form
     {
+        private bool isKeyLeftPressed = false;
+        private bool isKeyRightPressed = false;
+
         private readonly int _platformWidth;
         private readonly int _platformPosition;
-        
+
         private readonly int _windowHeight;
         private readonly int _windowWidth;
-        
+
         private readonly int _ballSize;
 
         private double _speedX, _speedY; // Скорость для шарика, путем ускорения отталкивания для sx,xy (по умолчанию 1.5, потом мб увеличим в зависимости от сложности)
-        private double _coordinateX , _coordinateY; //
 
-        private Timer _movementTimer = new Timer {Interval = 100};
+        private double _coordinateX, _coordinateY; //
+
+        private Timer timer1 = new Timer();
+
+        private Timer timer2 = new Timer();
 
         public Arkanoid(GameModel gameModel)
         {
             InitializeComponent();
-            
+
             StartPosition = FormStartPosition.CenterScreen;
-            
+
             _windowHeight = 800; // планируется добавить разный размер окон, а мб и нет
             _windowWidth = 800;
             Size = new Size(_windowWidth, _windowHeight);
             MinimumSize = new Size(_windowWidth, _windowHeight);
             MaximumSize = new Size(_windowWidth, _windowHeight);
-            
+
             _platformPosition = _windowHeight - 100;
             int platformWidth = gameModel.PlatformWidth;
             int platformHeight = gameModel.PlatformHeight;
@@ -69,9 +76,9 @@ namespace rndomNamespace
             platform1.Size = new Size(platformWidth, platformHeight);
             platform1.Location = new Point(_windowWidth / 2 - platformWidth / 2, _platformPosition);
             _platformWidth = platformWidth;
-            
+
             _ballSize = gameModel.BallSize;
-            _speedX = gameModel.BallSpeed; 
+            _speedX = gameModel.BallSpeed;
             _speedY = gameModel.BallSpeed;
             ball.Image = Properties.Resources.ball;
             ball.Size = new Size(_ballSize, _ballSize);
@@ -79,62 +86,54 @@ namespace rndomNamespace
 
             _coordinateX = ball.Left;
             _coordinateY = ball.Top;
-            
+
+            PictureBox tile = new PictureBox();
+
+            tile.Image = Properties.Resources.tile;
+            tile.Size = new Size(50, 20);
+            tile.Location = new Point(100, 100);
+
+            string[,] levelStruct = gameModel.Level;
+            LevelBuilder(levelStruct);
+
             GameModel game = gameModel;
-            
-            KeyDown += Form1_KeyDown;
-            _movementTimer.Tick += _movementTimer_Tick;
+
+            timer1.Interval = 10;
+            timer1.Tick += update;
+            timer1.Start();
+
+            timer2.Interval = 10;
+            timer2.Tick += new EventHandler(Elapsed);
+            timer2.Start();
+
+            KeyDown += Arkanoid_KeyDown;
+            KeyUp += Arkanoid_KeyUp;
         }
 
-        private void _movementTimer_Tick(object obj, EventArgs e)
-        {
-            
-        }
-
-        private void DoMovement()
-        {
-            
-        }
-        
-        private void Form1_KeyDown(object obj, KeyEventArgs e)
-        {
-            //if (e.IsRepeat)
-            int currentKey = e.KeyValue;
-            switch (currentKey)
-            {
-                case 37:
-                    if (platform1.Left < 3) return;
-                    
-                    platform1.Location = new Point(platform1.Location.X - 10, platform1.Location.Y);
-                    break;
-                case 39:
-                    if (platform1.Right > _windowWidth - 19) return;
-                    
-                    platform1.Location = new Point(platform1.Location.X + 10, platform1.Location.Y);
-                    break;
-            }
-        }
-
-        private void timer1_Elapsed(object sender, ElapsedEventArgs e)
+        private void Elapsed(object sender, EventArgs e)
         {
             _coordinateX += _speedX; // Движение по х
             _coordinateY += _speedY; // Движение по y
-            ball.Left = (int)_coordinateX; // 
-            ball.Top = (int)_coordinateY; // 
-            if (ball.Top <=0)
+            ball.Left = (int) _coordinateX; // 
+            ball.Top = (int) _coordinateY; // 
+            if (ball.Top <= 0)
             {
                 _speedY = -_speedY;
                 ball.Top += 5;
             }
-            if (platform1.Left - ball.Width < ball.Left && platform1.Left + platform1.Width > ball.Left && ball.Top + ball.Height >= _platformPosition)
+
+            if (platform1.Left - ball.Width < ball.Left && platform1.Left + platform1.Width > ball.Left &&
+                ball.Top + ball.Height >= _platformPosition)
             {
                 _speedY = -_speedY;
-                ball.Top-= 5;
+                ball.Top -= 5;
             }
+
             if (ball.Right > _windowWidth - 19) // Проверка, правый бок
             {
                 _speedX = -_speedX; // Отталкивание в противоположную сторону
             }
+
             if (ball.Left <= 0)
             {
                 _speedX = -_speedX;
@@ -143,6 +142,75 @@ namespace rndomNamespace
             if (ball.Bottom > _windowHeight - _ballSize)
             {
                 Close(); // в планах запилить менюшку с Начать заново / Главное меню / Ваш рекорд
+            }
+        }
+
+        private void Arkanoid_KeyUp(object sender, KeyEventArgs e)
+        {
+            isKeyLeftPressed = false;
+            isKeyRightPressed = false;
+        }
+
+        private void update(object obj, EventArgs e)
+        {
+            if (isKeyLeftPressed)
+            {
+                if (platform1.Left < 3) return;
+                platform1.Location = new Point(platform1.Location.X - 10, platform1.Location.Y);
+            }
+
+            if (isKeyRightPressed)
+            {
+                if (platform1.Right > _windowWidth - 19) return;
+                platform1.Location = new Point(platform1.Location.X + 10, platform1.Location.Y);
+            }
+        }
+
+        private void Arkanoid_KeyDown(object obj, KeyEventArgs e)
+        {
+            //if (e.IsRepeat)
+            int currentKey = e.KeyValue;
+            switch (currentKey)
+            {
+                case 37:
+                    if (platform1.Left < 3) return;
+                    isKeyLeftPressed = true;
+                    //platform1.Location = new Point(platform1.Location.X - 10, platform1.Location.Y);
+                    break;
+                case 39:
+                    if (platform1.Right > _windowWidth - 19) return;
+                    isKeyRightPressed = true;
+                    //platform1.Location = new Point(platform1.Location.X + 10, platform1.Location.Y);
+                    break;
+            }
+        }
+
+        private void timer2_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            
+        }
+
+        private void LevelBuilder(string[,] levelStruct)
+        {
+            Tile tileBlock = new Tile();
+            int height = tileBlock.GetHeight;
+            int width = tileBlock.GetWidth;
+
+            for (int i = 0; i < levelStruct.GetLength(0); i++)
+            {
+                for (int j = 0; j < levelStruct.GetLength(1); j++)
+                {
+                    if (levelStruct[i, j] == "*")
+                    {
+                        PictureBox tile = new PictureBox();
+
+                        tile.Image = Properties.Resources.tile;
+                        tile.Size = new Size(width, height);
+                        tile.Location = new Point(100 + i * 55, 100 + j * 25);
+
+                        Controls.Add(tile);
+                    }
+                }
             }
         }
     }
