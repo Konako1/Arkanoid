@@ -32,7 +32,7 @@ namespace rndomNamespace
 
         private void newGame_Click(object sender, EventArgs e)
         {
-            GameModel game = new GameModel(1, 3);
+            GameModel game = new GameModel(1, 1);
             var gameForm = new Arkanoid(game);
             gameForm.Show();
             Hide();
