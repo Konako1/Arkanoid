@@ -2,11 +2,11 @@ namespace rndomNamespace
 {
     public class Tile
     {
-        private const int Width = 20;
-        private const int Height = 50;
-        public Tile()
-        {
-            
-        }
+        private const int Width = 50;
+        private const int Height = 20;
+
+        public int GetWidth => Width;
+
+        public int GetHeight => Height;
     }
 }
