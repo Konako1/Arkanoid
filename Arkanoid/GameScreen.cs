@@ -19,9 +19,15 @@ namespace rndomNamespace
         public readonly int BallSize;
         public readonly int PlatformHeight;
         public readonly int PlatformWidth;
-        public readonly string[,] Level;
+        public readonly string[,] LevelStruct;
+
+        public readonly int Difficulty;
+        public readonly int Level;
         public GameModel(int difficulty, int level)
         {
+            Difficulty = difficulty;
+            Level = level;
+            
             Ball ball = new Ball(difficulty);
             Platform platform = new Platform(difficulty);
             Levels levels = new Levels(level);
@@ -32,7 +38,7 @@ namespace rndomNamespace
             PlatformHeight = platform.GetHeight;
             PlatformWidth = platform.GetWidth;
 
-            Level = levels.Level;
+            LevelStruct = levels.Level;
         }
     }
 
@@ -40,6 +46,9 @@ namespace rndomNamespace
     {
         private bool isKeyLeftPressed = false;
         private bool isKeyRightPressed = false;
+
+        public readonly int Level;
+        public readonly int Difficulty;
 
         private readonly int _platformWidth;
         private readonly int _platformPosition;
@@ -61,10 +70,15 @@ namespace rndomNamespace
         {
             InitializeComponent();
 
-            StartPosition = FormStartPosition.CenterScreen;
+            Level = gameModel.Level;
+            Difficulty = gameModel.Difficulty;
 
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Arkanoid";
+            
             _windowHeight = 800; // планируется добавить разный размер окон, а мб и нет
             _windowWidth = 800;
+            
             Size = new Size(_windowWidth, _windowHeight);
             MinimumSize = new Size(_windowWidth, _windowHeight);
             MaximumSize = new Size(_windowWidth, _windowHeight);
@@ -93,8 +107,15 @@ namespace rndomNamespace
             tile.Size = new Size(50, 20);
             tile.Location = new Point(100, 100);
 
-            string[,] levelStruct = gameModel.Level;
+            string[,] levelStruct = gameModel.LevelStruct;
             LevelBuilder(levelStruct);
+            
+            gameOverScreen.Image = Properties.Resources.bg;
+            gameOverScreen.Location = new Point(0, 0);
+            gameOverScreen.Size = new Size(1920, 1080);
+            gameOverScreen.Visible = false;
+            
+            
 
             GameModel game = gameModel;
 
@@ -108,6 +129,7 @@ namespace rndomNamespace
 
             KeyDown += Arkanoid_KeyDown;
             KeyUp += Arkanoid_KeyUp;
+            
         }
 
         private void Elapsed(object sender, EventArgs e)
@@ -141,8 +163,48 @@ namespace rndomNamespace
 
             if (ball.Bottom > _windowHeight - _ballSize)
             {
-                Close(); // в планах запилить менюшку с Начать заново / Главное меню / Ваш рекорд
+                gameOverScreen.Visible = true;
+
+                Button mainMenu = new Button();
+                Button retry = new Button();
+
+                mainMenu.Size = new Size(100, 60);
+                retry.Size = new Size(100, 60);
+
+                mainMenu.Location = new Point(_windowWidth / 2 - 50, (_windowHeight * 3) / 4 - 30);
+                retry.Location = new Point(_windowWidth / 2 - 50, _windowHeight / 2 - 30);
+
+                mainMenu.Text = "Exit To Menu";
+                retry.Text = "Retry";
+
+                Controls.Add(mainMenu);
+                Controls.Add(retry);
+                
+                mainMenu.BringToFront();
+                retry.BringToFront();
+
+                retry.Click += new EventHandler(retry_click);
+                mainMenu.Click += new EventHandler(mainMenu_click);
+
+                timer1.Stop();
+                timer2.Stop(); // в планах запилить менюшку с Начать заново / Главное меню / Ваш рекорд
             }
+        }
+
+        private void retry_click(object sender, EventArgs e)
+        {
+            GameModel game = new GameModel(Difficulty, Level);
+            var gameForm = new Arkanoid(game);
+            Close();
+            gameForm.Show();
+        }
+
+        private void mainMenu_click(object sender, EventArgs e)
+        {
+            Close();
+            var startScreen = new Form2();
+            Close();
+            startScreen.Show();
         }
 
         private void Arkanoid_KeyUp(object sender, KeyEventArgs e)
@@ -168,19 +230,16 @@ namespace rndomNamespace
 
         private void Arkanoid_KeyDown(object obj, KeyEventArgs e)
         {
-            //if (e.IsRepeat)
             int currentKey = e.KeyValue;
             switch (currentKey)
             {
                 case 37:
                     if (platform1.Left < 3) return;
                     isKeyLeftPressed = true;
-                    //platform1.Location = new Point(platform1.Location.X - 10, platform1.Location.Y);
                     break;
                 case 39:
                     if (platform1.Right > _windowWidth - 19) return;
                     isKeyRightPressed = true;
-                    //platform1.Location = new Point(platform1.Location.X + 10, platform1.Location.Y);
                     break;
             }
         }
