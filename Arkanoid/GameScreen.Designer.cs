@@ -30,8 +30,10 @@
     {
       this.platform1 = new System.Windows.Forms.PictureBox();
       this.ball = new System.Windows.Forms.PictureBox();
+      this.gameOverScreen = new System.Windows.Forms.PictureBox();
       ((System.ComponentModel.ISupportInitialize) (this.platform1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize) (this.ball)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize) (this.gameOverScreen)).BeginInit();
       this.SuspendLayout();
       // 
       // platform1
@@ -51,11 +53,20 @@
       this.ball.TabIndex = 1;
       this.ball.TabStop = false;
       // 
+      // gameOverScreen
+      // 
+      this.gameOverScreen.Location = new System.Drawing.Point(109, 149);
+      this.gameOverScreen.Name = "gameOverScreen";
+      this.gameOverScreen.Size = new System.Drawing.Size(100, 50);
+      this.gameOverScreen.TabIndex = 2;
+      this.gameOverScreen.TabStop = false;
+      // 
       // Arkanoid
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(636, 403);
+      this.Controls.Add(this.gameOverScreen);
       this.Controls.Add(this.ball);
       this.Controls.Add(this.platform1);
       this.KeyPreview = true;
@@ -65,8 +76,11 @@
       this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Arkanoid_KeyDown);
       ((System.ComponentModel.ISupportInitialize) (this.platform1)).EndInit();
       ((System.ComponentModel.ISupportInitialize) (this.ball)).EndInit();
+      ((System.ComponentModel.ISupportInitialize) (this.gameOverScreen)).EndInit();
       this.ResumeLayout(false);
     }
+
+    private System.Windows.Forms.PictureBox gameOverScreen;
 
     private System.Windows.Forms.PictureBox ball;
 
