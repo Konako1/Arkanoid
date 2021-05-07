@@ -16,6 +16,7 @@ namespace rndomNamespace
         public Form2()
         {
             InitializeComponent();
+            Text = "Arkanoid";
             Size = new Size(800, 400);
             StartPosition = FormStartPosition.CenterScreen;
         }
