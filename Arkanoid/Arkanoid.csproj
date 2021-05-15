@@ -98,9 +98,14 @@
     <Content Include="GameplayComponents\authors.png" />
     <Content Include="GameplayComponents\ball.png" />
     <Content Include="GameplayComponents\bg.png" />
+    <Content Include="GameplayComponents\endexit.png" />
+    <Content Include="GameplayComponents\endrestart.png" />
     <Content Include="GameplayComponents\platform1.png" />
     <Content Include="GameplayComponents\tile.png" />
-    <Content Include="Resources\bg.png" />
+    <Content Include="GameplayComponents\youdied.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
