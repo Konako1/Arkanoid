@@ -125,6 +125,8 @@ namespace rndomNamespace
             timer2.Interval = 10;
             timer2.Tick += Elapsed;
             timer2.Start();
+            
+            InitializeGraphics();
 
             KeyDown += Arkanoid_KeyDown;
             KeyUp += Arkanoid_KeyUp;
