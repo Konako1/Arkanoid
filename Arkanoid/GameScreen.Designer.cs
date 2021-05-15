@@ -29,10 +29,8 @@
     private void InitializeComponent()
     {
       this.platform1 = new System.Windows.Forms.PictureBox();
-      this.ball = new System.Windows.Forms.PictureBox();
       this.gameOverScreen = new System.Windows.Forms.PictureBox();
       ((System.ComponentModel.ISupportInitialize) (this.platform1)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize) (this.ball)).BeginInit();
       ((System.ComponentModel.ISupportInitialize) (this.gameOverScreen)).BeginInit();
       this.SuspendLayout();
       // 
@@ -43,15 +41,6 @@
       this.platform1.Size = new System.Drawing.Size(0, 0);
       this.platform1.TabIndex = 0;
       this.platform1.TabStop = false;
-      // 
-      // ball
-      // 
-      this.ball.BackColor = System.Drawing.Color.Transparent;
-      this.ball.Location = new System.Drawing.Point(292, 236);
-      this.ball.Name = "ball";
-      this.ball.Size = new System.Drawing.Size(40, 40);
-      this.ball.TabIndex = 1;
-      this.ball.TabStop = false;
       // 
       // gameOverScreen
       // 
@@ -65,24 +54,21 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(636, 403);
+      this.ClientSize = new System.Drawing.Size(784, 761);
       this.Controls.Add(this.gameOverScreen);
-      this.Controls.Add(this.ball);
       this.Controls.Add(this.platform1);
+      this.DoubleBuffered = true;
       this.KeyPreview = true;
       this.Name = "Arkanoid";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Text";
       this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Arkanoid_KeyDown);
       ((System.ComponentModel.ISupportInitialize) (this.platform1)).EndInit();
-      ((System.ComponentModel.ISupportInitialize) (this.ball)).EndInit();
       ((System.ComponentModel.ISupportInitialize) (this.gameOverScreen)).EndInit();
       this.ResumeLayout(false);
     }
 
     private System.Windows.Forms.PictureBox gameOverScreen;
-
-    private System.Windows.Forms.PictureBox ball;
 
     private System.Windows.Forms.PictureBox platform1;
 
