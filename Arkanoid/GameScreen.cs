@@ -117,6 +117,7 @@ namespace rndomNamespace
             
 
             GameModel game = gameModel;
+            FormClosing += Form_Closing;
 
             timer1.Interval = 10;
             timer1.Tick += update;
@@ -128,7 +129,15 @@ namespace rndomNamespace
 
             KeyDown += Arkanoid_KeyDown;
             KeyUp += Arkanoid_KeyUp;
-            
+
+        }
+
+        private void Form_Closing(object sender, FormClosingEventArgs e)
+        {
+            ball.Dispose();
+            Dispose();
+        }
+
         private void InitializeGraphics()
         {
             BufferedGraphicsContext context = new BufferedGraphicsContext();
@@ -162,34 +171,43 @@ namespace rndomNamespace
                 ball.Graphics.DrawEllipse(new Pen(Brushes.Blue), _coordinateX, _coordinateY, _ballSize, _ballSize);
                 ball.Render(); //выводим то, что отрисовано в буфере
             }
-
-            if (ball.Bottom > _windowHeight - _ballSize)
+            
+            if (_coordinateY + _ballSize >= _windowHeight - _ballSize)
             {
-                gameOverScreen.Visible = true;
+                BackColor = Color.Black;
+                platform1.Visible = false;
 
-                Button mainMenu = new Button();
-                Button retry = new Button();
+                PictureBox mainMenu = new PictureBox();
+                PictureBox retry = new PictureBox();
+                PictureBox youDead = new PictureBox();
 
-                mainMenu.Size = new Size(100, 60);
-                retry.Size = new Size(100, 60);
+                mainMenu.Size = new Size(148, 55);
+                retry.Size = new Size(182, 56);
+                youDead.Size = new Size(884, 224);
 
-                mainMenu.Location = new Point(_windowWidth / 2 - 50, (_windowHeight * 3) / 4 - 30);
-                retry.Location = new Point(_windowWidth / 2 - 50, _windowHeight / 2 - 30);
+                mainMenu.Location = new Point(_windowWidth / 2 - mainMenu.Size.Width / 2, (_windowHeight * 3) / 4 - 30);
+                retry.Location = new Point(_windowWidth / 2 - retry.Size.Width / 2, _windowHeight / 2 - 30);
+                youDead.Location = new Point(_windowWidth / 2 - youDead.Size.Width / 2, _windowHeight / 8);
 
-                mainMenu.Text = "Exit To Menu";
-                retry.Text = "Retry";
+                mainMenu.Image = Resources.game_exit;
+                retry.Image = Resources.game_restart;
+                youDead.Image = Resources.you_died;
 
                 Controls.Add(mainMenu);
                 Controls.Add(retry);
+                Controls.Add(youDead);
                 
                 mainMenu.BringToFront();
                 retry.BringToFront();
-
-                retry.Click += new EventHandler(retry_click);
-                mainMenu.Click += new EventHandler(mainMenu_click);
-
+                youDead.BringToFront();
+                
                 timer1.Stop();
-                timer2.Stop(); // в планах запилить менюшку с Начать заново / Главное меню / Ваш рекорд
+                timer2.Stop();
+
+                retry.Click += retry_click;
+                mainMenu.Click += mainMenu_click;
+
+                 // в планах запилить менюшку с Начать заново / Главное меню / Ваш рекорд
             }
         }
 
