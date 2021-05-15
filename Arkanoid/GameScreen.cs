@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
+using rndomNamespace.Properties;
 using Timer = System.Windows.Forms.Timer;
 
 namespace rndomNamespace
@@ -44,8 +45,8 @@ namespace rndomNamespace
 
     public partial class Arkanoid : Form
     {
-        private bool isKeyLeftPressed = false;
-        private bool isKeyRightPressed = false;
+        private bool isKeyLeftPressed;
+        private bool isKeyRightPressed;
 
         public readonly int Level;
         public readonly int Difficulty;
@@ -113,8 +114,6 @@ namespace rndomNamespace
             gameOverScreen.Location = new Point(0, 0);
             gameOverScreen.Size = new Size(1920, 1080);
             gameOverScreen.Visible = false;
-            
-            
 
             GameModel game = gameModel;
             FormClosing += Form_Closing;
@@ -124,7 +123,7 @@ namespace rndomNamespace
             timer1.Start();
 
             timer2.Interval = 10;
-            timer2.Tick += new EventHandler(Elapsed);
+            timer2.Tick += Elapsed;
             timer2.Start();
 
             KeyDown += Arkanoid_KeyDown;
@@ -215,8 +214,8 @@ namespace rndomNamespace
         {
             GameModel game = new GameModel(Difficulty, Level);
             var gameForm = new Arkanoid(game);
-            Close();
             gameForm.Show();
+            Close();
         }
 
         private void mainMenu_click(object sender, EventArgs e)
@@ -264,11 +263,6 @@ namespace rndomNamespace
             }
         }
 
-        private void timer2_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            
-        }
-
         private void LevelBuilder(string[,] levelStruct)
         {
             Tile tileBlock = new Tile();
@@ -282,7 +276,6 @@ namespace rndomNamespace
                     if (levelStruct[i, j] == "*")
                     {
                         PictureBox tile = new PictureBox();
-
                         tile.Image = Properties.Resources.tile;
                         tile.Size = new Size(width, height);
                         tile.Location = new Point(100 + i * 55, 100 + j * 25);
