@@ -57,10 +57,12 @@ namespace rndomNamespace
         private readonly int _windowWidth;
 
         private readonly int _ballSize;
+        private BufferedGraphics ball;
 
-        private double _speedX, _speedY; // Скорость для шарика, путем ускорения отталкивания для sx,xy (по умолчанию 1.5, потом мб увеличим в зависимости от сложности)
+        private int _speedX, _speedY; // Скорость для шарика, путем ускорения отталкивания для sx,xy (по умолчанию 1.5, потом мб увеличим в зависимости от сложности)
 
-        private double _coordinateX, _coordinateY; //
+        private int _coordinateX;
+        private int _coordinateY; //
 
         private Timer timer1 = new Timer();
 
@@ -94,12 +96,9 @@ namespace rndomNamespace
             _ballSize = gameModel.BallSize;
             _speedX = gameModel.BallSpeed;
             _speedY = gameModel.BallSpeed;
-            ball.Image = Properties.Resources.ball;
-            ball.Size = new Size(_ballSize, _ballSize);
-            ball.Location = new Point(_windowWidth / 2 - _ballSize / 2, _platformPosition - _ballSize - 2);
 
-            _coordinateX = ball.Left;
-            _coordinateY = ball.Top;
+            _coordinateX = _windowWidth / 2 - _ballSize / 2;
+            _coordinateY = _windowHeight - 100 - gameModel.BallSpeed - _ballSize;
 
             PictureBox tile = new PictureBox();
 
@@ -130,35 +129,38 @@ namespace rndomNamespace
             KeyDown += Arkanoid_KeyDown;
             KeyUp += Arkanoid_KeyUp;
             
+        private void InitializeGraphics()
+        {
+            BufferedGraphicsContext context = new BufferedGraphicsContext();
+            ball = context.Allocate(CreateGraphics(), ClientRectangle);
+            context.MaximumBuffer = ClientRectangle.Size;
         }
 
         private void Elapsed(object sender, EventArgs e)
         {
             _coordinateX += _speedX; // Движение по х
-            _coordinateY += _speedY; // Движение по y
-            ball.Left = (int) _coordinateX; // 
-            ball.Top = (int) _coordinateY; // 
-            if (ball.Top <= 0)
-            {
-                _speedY = -_speedY;
-                ball.Top += 5;
-            }
-
-            if (platform1.Left - ball.Width < ball.Left && platform1.Left + platform1.Width > ball.Left &&
-                ball.Top + ball.Height >= _platformPosition)
-            {
-                _speedY = -_speedY;
-                ball.Top -= 5;
-            }
-
-            if (ball.Right > _windowWidth - 19) // Проверка, правый бок
-            {
-                _speedX = -_speedX; // Отталкивание в противоположную сторону
-            }
-
-            if (ball.Left <= 0)
+            _coordinateY += _speedY; // Движение по y 
+            if (_coordinateX <= 0 || _coordinateX + _ballSize >= _windowWidth - 19)
             {
                 _speedX = -_speedX;
+            }
+
+            if (platform1.Location.X <= _coordinateX + _ballSize / 2 && platform1.Location.X + _platformWidth >= _coordinateX + _ballSize / 2 &&
+                platform1.Location.Y == _coordinateY + _ballSize)
+            {
+                _speedY = -_speedY;
+            }
+
+            if (_coordinateY <= 0)
+            {
+                _speedY = -_speedY;
+            }
+
+            if (ball.Graphics != null)
+            {
+                ball.Graphics.Clear(BackColor);
+                ball.Graphics.DrawEllipse(new Pen(Brushes.Blue), _coordinateX, _coordinateY, _ballSize, _ballSize);
+                ball.Render(); //выводим то, что отрисовано в буфере
             }
 
             if (ball.Bottom > _windowHeight - _ballSize)
