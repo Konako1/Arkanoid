@@ -103,6 +103,26 @@ namespace rndomNamespace.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap game_exit {
+            get {
+                object obj = ResourceManager.GetObject("game_exit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap game_restart {
+            get {
+                object obj = ResourceManager.GetObject("game_restart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap newgame {
             get {
                 object obj = ResourceManager.GetObject("newgame", resourceCulture);
@@ -136,6 +156,16 @@ namespace rndomNamespace.Properties {
         internal static System.Drawing.Bitmap waw {
             get {
                 object obj = ResourceManager.GetObject("waw", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap you_died {
+            get {
+                object obj = ResourceManager.GetObject("you_died", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
