@@ -267,7 +267,7 @@ namespace rndomNamespace
 
         private void LevelBuilder(string[,] levelStruct)
         {
-            Tile tileBlock = new Tile();
+            Tile tileBlock = new Tile(levelStruct.Length);
             int height = tileBlock.GetHeight;
             int width = tileBlock.GetWidth;
 
@@ -286,6 +286,22 @@ namespace rndomNamespace
                     }
                 }
             }
+        }
+
+        private void DrawTiles(Graphics g)
+        {
+            /*for (int i = 0; i < UPPER; i++)
+            {
+                for (int j = 0; j < UPPER; j++)
+                {
+                    
+                }
+            }*/
+        }
+
+        private void OnPaint(object sender, PaintEventArgs e)
+        {
+            DrawTiles(e.Graphics);
         }
     }
 }
