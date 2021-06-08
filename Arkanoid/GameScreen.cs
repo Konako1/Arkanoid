@@ -69,6 +69,9 @@ namespace rndomNamespace
 
         private Timer timer2 = new Timer();
 
+        private PictureBox[,] _level;
+        private int[] _levelSize;
+
         public Arkanoid(GameModel gameModel)
         {
             InitializeComponent();
@@ -172,6 +175,23 @@ namespace rndomNamespace
                 ball.Graphics.DrawEllipse(new Pen(Brushes.Blue), _coordinateX, _coordinateY, _ballSize, _ballSize);
                 ball.Render(); //выводим то, что отрисовано в буфере
             }
+
+            for (int i = 0; i < _level.GetUpperBound(0) + 1; i++)
+            {
+                for (int j = 0; j < _level.GetUpperBound(1) + 1; j++)
+                {
+                    if (_level[i, j] == null) continue;
+                    
+                    if (_coordinateX + _ballSize / 2 >= 120 + i * (100 + 5) &&
+                        _coordinateX + _ballSize / 2 <= 220 + i * (100 + 5))
+                    {
+                        if (_coordinateY <= 130 + j * (30 + 5) && _coordinateY >= 100 + j * (30 + 5))
+                        {
+                            _level[i, j].Visible = false;
+                        }
+                    }
+                }
+            }
             
             if (_coordinateY + _ballSize >= _windowHeight - _ballSize)
             {
@@ -270,6 +290,8 @@ namespace rndomNamespace
             Tile tileBlock = new Tile(levelStruct.Length);
             int height = tileBlock.GetHeight;
             int width = tileBlock.GetWidth;
+            _level = new PictureBox[levelStruct.GetUpperBound(0) + 1, levelStruct.GetUpperBound(1) + 1];
+            _levelSize = new int[] {0, 0};
 
             for (int i = 0; i < levelStruct.GetLength(0); i++)
             {
@@ -280,12 +302,24 @@ namespace rndomNamespace
                         PictureBox tile = new PictureBox();
                         tile.Image = Properties.Resources.tile;
                         tile.Size = new Size(width, height);
-                        tile.Location = new Point(100 + i * 55, 100 + j * 25);
+                        tile.Location = new Point(120 + i * (width + 5), 100 + j * (height + 5));
 
                         Controls.Add(tile);
+                        _level[i, j] = tile;
                     }
+                    else
+                    {
+                        _level[i, j] = null;
+                    }
+
+                    _levelSize[0] += 105;
                 }
+
+                _levelSize[1] += 55;
             }
+
+            _levelSize[0] -= 5;
+            _levelSize[1] -= 5;
         }
 
         private void DrawTiles(Graphics g)
