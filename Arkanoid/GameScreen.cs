@@ -176,24 +176,54 @@ namespace rndomNamespace
                 ball.Render(); //выводим то, что отрисовано в буфере
             }
 
+            var isLevelComplete = true;
+            
             for (int i = 0; i < _level.GetUpperBound(0) + 1; i++)
             {
                 for (int j = 0; j < _level.GetUpperBound(1) + 1; j++)
                 {
-                    if (_level[i, j] == null) continue;
+                    if (_level[i, j].Visible)
+                        isLevelComplete = false;
+                    
+                    if (!_level[i, j].Visible) continue;
                     
                     if (_coordinateX + _ballSize / 2 >= 120 + i * (100 + 5) &&
-                        _coordinateX + _ballSize / 2 <= 220 + i * (100 + 5))
+                            _coordinateX + _ballSize / 2 <= 220 + i * (100 + 5)) // ширина плитки
                     {
-                        if (_coordinateY <= 130 + j * (30 + 5) && _coordinateY >= 100 + j * (30 + 5))
+                        if (_coordinateY <= 130 + j * (30 + 5) &&
+                            _coordinateY >= 100 + j * (30 + 5)) // отскок верхней стороной шарика от нижней границы
                         {
                             _level[i, j].Visible = false;
+                            _speedY = -_speedY;
                         }
+                        else if (_coordinateY + _ballSize >=
+                                 100 + j * (30 + 5) && // отскок нижней стороной шарика от верхней границы
+                                 _coordinateY + _ballSize <= 130 + j * (30 + 5))
+                        {
+                            _level[i, j].Visible = false;
+                            _speedY = -_speedY;
+                        }
+                    }
+                    if (_coordinateY + _ballSize / 2 >= 100 + j * (30 + 5) &&
+                             _coordinateY + _ballSize <= 130 + j * (30 + 5))
+                    {
+                        if (_coordinateX <= 220 + i * (100 + 5) && _coordinateX >= 120 + i * (100 + 5))
+                        {
+                            _level[i, j].Visible = false;
+                            _speedX = -_speedX;
+                        }
+                        else if (_coordinateX + _ballSize >= 120 + i * (100 + 5) &&
+                                 _coordinateX + _ballSize <= 220 + i * (100 + 5))
+                        {
+                            _level[i, j].Visible = false;
+                            _speedX = -_speedX;
+                        }
+                        
                     }
                 }
             }
             
-            if (_coordinateY + _ballSize >= _windowHeight - _ballSize)
+            if (_coordinateY + _ballSize >= _windowHeight - _ballSize || isLevelComplete)
             {
                 BackColor = Color.Black;
                 platform1.Visible = false;
