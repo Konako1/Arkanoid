@@ -31,7 +31,7 @@ namespace rndomNamespace
 
             if (level == 1)
             {
-                _levelStruct = new string[8, 3];
+                _levelStruct = new string[5, 3];
                 StringBuilder(_levelStruct);
             }
         }
