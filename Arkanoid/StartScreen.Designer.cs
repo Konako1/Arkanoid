@@ -30,6 +30,7 @@ namespace rndomNamespace
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.authors = new System.Windows.Forms.PictureBox();
             this.newGame = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -89,6 +90,7 @@ namespace rndomNamespace
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.newGame);
             this.Controls.Add(this.authors);
+            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(15, 15);
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

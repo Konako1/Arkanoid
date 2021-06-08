@@ -28,6 +28,7 @@
     /// </summary>
     private void InitializeComponent()
     {
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Arkanoid));
       this.platform1 = new System.Windows.Forms.PictureBox();
       this.gameOverScreen = new System.Windows.Forms.PictureBox();
       ((System.ComponentModel.ISupportInitialize) (this.platform1)).BeginInit();
@@ -58,6 +59,7 @@
       this.Controls.Add(this.gameOverScreen);
       this.Controls.Add(this.platform1);
       this.DoubleBuffered = true;
+      this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
       this.KeyPreview = true;
       this.Name = "Arkanoid";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
