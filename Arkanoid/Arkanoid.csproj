@@ -103,8 +103,6 @@
     <Content Include="GameplayComponents\platform1.png" />
     <Content Include="GameplayComponents\tile.png" />
     <Content Include="GameplayComponents\youdied.png" />
-    <Content Include="Resources\unknown.png" />
-    <Content Include="Resources\winScreen.png" />
     <Content Include="Resources\winScreen1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
