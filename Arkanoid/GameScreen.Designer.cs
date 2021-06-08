@@ -28,11 +28,13 @@
     /// </summary>
     private void InitializeComponent()
     {
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Arkanoid));
       this.platform1 = new System.Windows.Forms.PictureBox();
       this.gameOverScreen = new System.Windows.Forms.PictureBox();
+      this.winScreen = new System.Windows.Forms.PictureBox();
+      this.scoreLable = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize) (this.platform1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize) (this.gameOverScreen)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize) (this.winScreen)).BeginInit();
       this.SuspendLayout();
       // 
       // platform1
@@ -51,15 +53,36 @@
       this.gameOverScreen.TabIndex = 2;
       this.gameOverScreen.TabStop = false;
       // 
+      // winScreen
+      // 
+      this.winScreen.Image = global::rndomNamespace.Properties.Resources.winScreen1;
+      this.winScreen.InitialImage = null;
+      this.winScreen.Location = new System.Drawing.Point(260, 302);
+      this.winScreen.Name = "winScreen";
+      this.winScreen.Size = new System.Drawing.Size(100, 50);
+      this.winScreen.TabIndex = 3;
+      this.winScreen.TabStop = false;
+      // 
+      // scoreLable
+      // 
+      this.scoreLable.BackColor = System.Drawing.SystemColors.Window;
+      this.scoreLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+      this.scoreLable.Location = new System.Drawing.Point(358, 64);
+      this.scoreLable.Name = "scoreLable";
+      this.scoreLable.Size = new System.Drawing.Size(100, 23);
+      this.scoreLable.TabIndex = 4;
+      this.scoreLable.Text = "label1";
+      // 
       // Arkanoid
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(784, 761);
+      this.Controls.Add(this.scoreLable);
+      this.Controls.Add(this.winScreen);
       this.Controls.Add(this.gameOverScreen);
       this.Controls.Add(this.platform1);
       this.DoubleBuffered = true;
-      this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
       this.KeyPreview = true;
       this.Name = "Arkanoid";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -67,8 +90,17 @@
       this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Arkanoid_KeyDown);
       ((System.ComponentModel.ISupportInitialize) (this.platform1)).EndInit();
       ((System.ComponentModel.ISupportInitialize) (this.gameOverScreen)).EndInit();
+      ((System.ComponentModel.ISupportInitialize) (this.winScreen)).EndInit();
       this.ResumeLayout(false);
     }
+
+    private System.Windows.Forms.Label scoreLable;
+
+    private System.Windows.Forms.Label label1;
+
+    private System.Windows.Forms.PictureBox winScreen;
+
+    private System.Windows.Forms.PictureBox pictureBox1;
 
     private System.Windows.Forms.PictureBox gameOverScreen;
 
