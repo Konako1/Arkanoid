@@ -278,6 +278,7 @@ namespace rndomNamespace
                 timer2.Stop();
                 
                 winScreen.Visible = true;
+                MessageBox.Show("Поздравляем, вы победили", "Arkanoid");
 
                 scoreLable.Visible = true;
                 scoreLable.Text = "Your score: " + _score;
