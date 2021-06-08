@@ -72,9 +72,16 @@ namespace rndomNamespace
         private PictureBox[,] _level;
         private int[] _levelSize;
 
+        private int _score = 0;
+
         public Arkanoid(GameModel gameModel)
         {
             InitializeComponent();
+
+            winScreen.Visible = false;
+            winScreen.Size = new Size(800, 800);
+            winScreen.Location = new Point(0, 0);
+            scoreLable.Visible = false;
 
             Level = gameModel.Level;
             Difficulty = gameModel.Difficulty;
@@ -195,6 +202,7 @@ namespace rndomNamespace
                         {
                             _level[i, j].Visible = false;
                             _speedY = -_speedY;
+                            _score += 50;
                         }
                         else if (_coordinateY + _ballSize >=
                                  100 + j * (30 + 5) && // отскок нижней стороной шарика от верхней границы
@@ -202,6 +210,7 @@ namespace rndomNamespace
                         {
                             _level[i, j].Visible = false;
                             _speedY = -_speedY;
+                            _score += 50;
                         }
                     }
                     if (_coordinateY + _ballSize / 2 >= 100 + j * (30 + 5) &&
@@ -211,19 +220,21 @@ namespace rndomNamespace
                         {
                             _level[i, j].Visible = false;
                             _speedX = -_speedX;
+                            _score += 50;
                         }
                         else if (_coordinateX + _ballSize >= 120 + i * (100 + 5) &&
                                  _coordinateX + _ballSize <= 220 + i * (100 + 5))
                         {
                             _level[i, j].Visible = false;
                             _speedX = -_speedX;
+                            _score += 50;
                         }
                         
                     }
                 }
             }
             
-            if (_coordinateY + _ballSize >= _windowHeight - _ballSize || isLevelComplete)
+            if (_coordinateY + _ballSize >= _windowHeight - _ballSize)
             {
                 BackColor = Color.Black;
                 platform1.Visible = false;
@@ -259,6 +270,19 @@ namespace rndomNamespace
                 mainMenu.Click += mainMenu_click;
 
                  // в планах запилить менюшку с Начать заново / Главное меню / Ваш рекорд
+            }
+
+            if (isLevelComplete)
+            {
+                timer1.Stop();
+                timer2.Stop();
+                
+                winScreen.Visible = true;
+
+                scoreLable.Visible = true;
+                scoreLable.Text = "Your score: " + _score;
+                scoreLable.Size = new Size(200, 50);
+                scoreLable.Location = new Point(400 - scoreLable.Size.Width / 2, 100);
             }
         }
 
