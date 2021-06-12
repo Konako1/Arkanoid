@@ -47,7 +47,6 @@ namespace rndomNamespace
         private int checklevel = 1;
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Настройки успешно установлены","Arkanoid");
             button1.Visible = false;
             bool statusMenu = true;
             bool statusLabel = false;
