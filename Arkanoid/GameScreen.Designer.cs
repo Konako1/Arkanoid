@@ -55,18 +55,16 @@
       // 
       // winScreen
       // 
-      this.winScreen.Image = global::rndomNamespace.Properties.Resources.winScreen1;
-      this.winScreen.InitialImage = null;
-      this.winScreen.Location = new System.Drawing.Point(260, 302);
+      this.winScreen.Location = new System.Drawing.Point(0, 0);
       this.winScreen.Name = "winScreen";
       this.winScreen.Size = new System.Drawing.Size(100, 50);
-      this.winScreen.TabIndex = 3;
+      this.winScreen.TabIndex = 5;
       this.winScreen.TabStop = false;
       // 
       // scoreLable
       // 
       this.scoreLable.BackColor = System.Drawing.SystemColors.Window;
-      this.scoreLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
+      this.scoreLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
       this.scoreLable.Location = new System.Drawing.Point(358, 64);
       this.scoreLable.Name = "scoreLable";
       this.scoreLable.Size = new System.Drawing.Size(100, 23);
