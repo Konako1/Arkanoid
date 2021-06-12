@@ -23,15 +23,27 @@ namespace rndomNamespace
 
         private void LevelBuilder(int level)
         {
-            if (level == 0)
+            if (level == 1)
             {
-                _levelStruct = new string[5,2];
+                _levelStruct = new string[5, 4];
                 StringBuilder(_levelStruct);
             }
 
-            if (level == 1)
+            if (level == 2)
             {
-                _levelStruct = new string[5, 3];
+                _levelStruct = new string[5, 6];
+                StringBuilder(_levelStruct);
+            }
+            
+            if (level == 3)
+            {
+                _levelStruct = new string[5, 7];
+                StringBuilder(_levelStruct);
+            }
+            
+            if (level == 4)
+            {
+                _levelStruct = new string[5, 8];
                 StringBuilder(_levelStruct);
             }
         }
