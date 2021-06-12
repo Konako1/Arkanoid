@@ -122,7 +122,8 @@ namespace rndomNamespace
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.Control;
-            this.button1.Location = new System.Drawing.Point(296, 314);
+            this.button1.Font = new System.Drawing.Font("Palatino Linotype", 11.75F);
+            this.button1.Location = new System.Drawing.Point(296, 276);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(187, 29);
             this.button1.TabIndex = 7;
