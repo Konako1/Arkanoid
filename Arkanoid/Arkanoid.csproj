@@ -104,6 +104,12 @@
     <Content Include="GameplayComponents\tile.png" />
     <Content Include="GameplayComponents\youdied.png" />
     <Content Include="Resources\winScreen1.png" />
+    <Content Include="Sounds\fail_sound.wav" />
+    <Content Include="Sounds\pong_gha.wav" />
+    <Content Include="Sounds\pong_hoba!.wav" />
+    <Content Include="Sounds\pong_hoba.wav" />
+    <Content Include="Sounds\pong_hobaaa.wav" />
+    <Content Include="Sounds\pong_hop.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
