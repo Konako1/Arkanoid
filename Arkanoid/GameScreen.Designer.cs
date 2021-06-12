@@ -63,7 +63,7 @@
       // 
       // scoreLable
       // 
-      this.scoreLable.BackColor = System.Drawing.SystemColors.Window;
+      this.scoreLable.BackColor = System.Drawing.SystemColors.Menu;
       this.scoreLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
       this.scoreLable.Location = new System.Drawing.Point(358, 64);
       this.scoreLable.Name = "scoreLable";
