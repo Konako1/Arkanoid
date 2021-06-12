@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Media;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +47,8 @@ namespace rndomNamespace
 
     public partial class Arkanoid : Form
     {
+        private string soundDir = Path.GetDirectoryName(Application.ExecutablePath).Replace(@"bin\Debug", @"Sounds\");
+        
         private bool isKeyLeftPressed;
         private bool isKeyRightPressed;
 
@@ -198,38 +202,20 @@ namespace rndomNamespace
                             _coordinateX + _ballSize / 2 <= 220 + i * (100 + 5)) // ширина плитки
                     {
                         if (_coordinateY <= 130 + j * (30 + 5) &&
-                            _coordinateY >= 100 + j * (30 + 5)) // отскок верхней стороной шарика от нижней границы
-                        {
-                            _level[i, j].Visible = false;
-                            _speedY = -_speedY;
-                            _score += 50;
-                        }
-                        else if (_coordinateY + _ballSize >=
-                                 100 + j * (30 + 5) && // отскок нижней стороной шарика от верхней границы
+                            _coordinateY >= 100 + j * (30 + 5)) 
+                            TileBreak(i, j, false); // отскок верхней стороной шарика от нижней границы
+                        else if (_coordinateY + _ballSize >= 100 + j * (30 + 5) && 
                                  _coordinateY + _ballSize <= 130 + j * (30 + 5))
-                        {
-                            _level[i, j].Visible = false;
-                            _speedY = -_speedY;
-                            _score += 50;
-                        }
+                            TileBreak(i, j, false); // отскок нижней стороной шарика от верхней границы
                     }
                     if (_coordinateY + _ballSize / 2 >= 100 + j * (30 + 5) &&
-                             _coordinateY + _ballSize <= 130 + j * (30 + 5))
+                             _coordinateY + _ballSize / 2 <= 130 + j * (30 + 5)) // высота плитки
                     {
                         if (_coordinateX <= 220 + i * (100 + 5) && _coordinateX >= 120 + i * (100 + 5))
-                        {
-                            _level[i, j].Visible = false;
-                            _speedX = -_speedX;
-                            _score += 50;
-                        }
+                            TileBreak(i, j, true); // отскок левой стороной шарика от правой границы
                         else if (_coordinateX + _ballSize >= 120 + i * (100 + 5) &&
                                  _coordinateX + _ballSize <= 220 + i * (100 + 5))
-                        {
-                            _level[i, j].Visible = false;
-                            _speedX = -_speedX;
-                            _score += 50;
-                        }
-                        
+                            TileBreak(i, j, true); // отскок правой стороной шарика от левой границы
                     }
                 }
             }
@@ -238,6 +224,9 @@ namespace rndomNamespace
             {
                 BackColor = Color.Black;
                 platform1.Visible = false;
+                
+                var player = new SoundPlayer(soundDir + "fail_sound.wav");
+                player.Play();
 
                 PictureBox mainMenu = new PictureBox();
                 PictureBox retry = new PictureBox();
@@ -276,6 +265,27 @@ namespace rndomNamespace
                 retry.Click += retry_click;
                 mainMenu.Click += mainMenu_click;
             }
+        }
+
+        private void TileBreak(int i, int j, bool isX)
+        {
+            _level[i, j].Visible = false;
+            _score += 50;
+            if (isX)
+                _speedX = -_speedX;
+            else
+                _speedY = -_speedY;
+            
+            var random = new Random();
+            var rndInt = random.Next(0, 5);
+            var sound = "pong_gha.wav";
+            if (rndInt == 1) sound = "pong_hoba.wav";
+            else if (rndInt == 2) sound = "pong_hoba!.wav";
+            else if (rndInt == 3) sound = "pong_hobaaa.wav";
+            else if (rndInt == 4) sound = "pong_hop.wav";
+            
+            var player = new SoundPlayer(soundDir + sound);
+            player.Play();
         }
 
         private void InitializeEndButtons(PictureBox mainMenu, PictureBox retry)
