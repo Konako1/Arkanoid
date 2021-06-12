@@ -242,30 +242,15 @@ namespace rndomNamespace
                 PictureBox mainMenu = new PictureBox();
                 PictureBox retry = new PictureBox();
                 PictureBox youDead = new PictureBox();
-
-                mainMenu.Size = new Size(148, 55);
-                retry.Size = new Size(182, 56);
-                youDead.Size = new Size(884, 224);
-
-                mainMenu.Location = new Point(_windowWidth / 2 - mainMenu.Size.Width / 2, (_windowHeight * 3) / 4 - 30);
-                retry.Location = new Point(_windowWidth / 2 - retry.Size.Width / 2, _windowHeight / 2 - 30);
-                youDead.Location = new Point(_windowWidth / 2 - youDead.Size.Width / 2, _windowHeight / 8);
-
-                mainMenu.Image = Resources.game_exit;
-                retry.Image = Resources.game_restart;
-                youDead.Image = Resources.you_died;
-
-                Controls.Add(mainMenu);
-                Controls.Add(retry);
-                Controls.Add(youDead);
                 
-                mainMenu.BringToFront();
-                retry.BringToFront();
+                youDead.Size = new Size(884, 224);
+                youDead.Location = new Point(_windowWidth / 2 - youDead.Size.Width / 2, _windowHeight / 8);
+                youDead.Image = Resources.you_died;
+                Controls.Add(youDead);
                 youDead.BringToFront();
                 
-                timer1.Stop();
-                timer2.Stop();
-
+                InitializeEndButtons(mainMenu, retry);
+                
                 retry.Click += retry_click;
                 mainMenu.Click += mainMenu_click;
 
@@ -274,16 +259,44 @@ namespace rndomNamespace
 
             if (isLevelComplete)
             {
-                timer1.Stop();
-                timer2.Stop();
+                PictureBox mainMenu = new PictureBox();
+                PictureBox retry = new PictureBox();
                 
                 winScreen.Visible = true;
 
                 scoreLable.Visible = true;
-                scoreLable.Text = "Your score: " + _score;
+                scoreLable.Text = "Your score: " + _score * Difficulty;
                 scoreLable.Size = new Size(200, 50);
-                scoreLable.Location = new Point(400 - scoreLable.Size.Width / 2, 100);
+                scoreLable.Location = new Point(_windowWidth / 2 - scoreLable.Size.Width / 2, _windowHeight / 8);
+                scoreLable.Show();
+                scoreLable.BringToFront();
+                
+                InitializeEndButtons(mainMenu, retry);
+                
+                retry.Click += retry_click;
+                mainMenu.Click += mainMenu_click;
             }
+        }
+
+        private void InitializeEndButtons(PictureBox mainMenu, PictureBox retry)
+        {
+            mainMenu.Size = new Size(148, 55);
+            retry.Size = new Size(182, 56);
+            
+            mainMenu.Location = new Point(_windowWidth / 2 - mainMenu.Size.Width / 2, (_windowHeight * 3) / 4 - 30);
+            retry.Location = new Point(_windowWidth / 2 - retry.Size.Width / 2, _windowHeight / 2 - 30);
+            
+            mainMenu.Image = Resources.game_exit;
+            retry.Image = Resources.game_restart;
+            
+            Controls.Add(mainMenu);
+            Controls.Add(retry);
+            
+            mainMenu.BringToFront();
+            retry.BringToFront();
+            
+            timer1.Stop();
+            timer2.Stop();
         }
 
         private void retry_click(object sender, EventArgs e)
