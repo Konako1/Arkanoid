@@ -45,15 +45,105 @@ namespace rndomNamespace
         }
     }
 
+    public class GameVisual
+    {
+        private BufferedGraphics ball;
+        private Form _form;
+        public GameVisual(Form form)
+        {
+            _form = form;
+        }
+        public BufferedGraphics InitializeGraphics()
+        {
+            BufferedGraphicsContext context = new BufferedGraphicsContext();
+            ball = context.Allocate(_form.CreateGraphics(), _form.ClientRectangle);
+            context.MaximumBuffer = _form.ClientRectangle.Size;
+            return ball;
+        }
+        
+        public void GameFailed(int width, int height, PictureBox mainMenu, PictureBox retry)
+        {
+            _form.BackColor = Color.Black;
+            
+            PictureBox youDead = new PictureBox();
+            youDead.Size = new Size(884, 224);
+            youDead.Location = new Point(width / 2 - youDead.Size.Width / 2, height / 8);
+            youDead.Image = Resources.you_died;
+            _form.Controls.Add(youDead);
+            youDead.BringToFront();
+                
+            InitializeEndButtons(mainMenu, retry, width, height);
+        }
+
+        public void GameFinished(Label scoreLable, int score, int diff, int width, int height,  PictureBox mainMenu, PictureBox retry)
+        {
+            scoreLable.Visible = true;
+            scoreLable.Text = "Your score: " + score * diff;
+            scoreLable.Size = new Size(200, 50);
+            scoreLable.Location = new Point(width / 2 - scoreLable.Size.Width / 2, height / 8);
+            scoreLable.Show();
+            scoreLable.BringToFront();
+                
+            InitializeEndButtons(mainMenu, retry, width, height);
+        }
+        
+        private void InitializeEndButtons(PictureBox mainMenu, PictureBox retry, int width, int height)
+        {
+            mainMenu.Size = new Size(148, 55);
+            retry.Size = new Size(182, 56);
+            
+            mainMenu.Location = new Point(width / 2 - mainMenu.Size.Width / 2, (height * 3) / 4 - 30);
+            retry.Location = new Point(width / 2 - retry.Size.Width / 2, height / 2 - 30);
+            
+            mainMenu.Image = Resources.game_exit;
+            retry.Image = Resources.game_restart;
+            
+            _form.Controls.Add(mainMenu);
+            _form.Controls.Add(retry);
+            
+            mainMenu.BringToFront();
+            retry.BringToFront();
+        }
+
+        public BufferedGraphics UpdateGraphics(int x, int y, int size)
+        {
+            ball.Graphics.Clear(_form.BackColor);
+            ball.Graphics.DrawEllipse(new Pen(Brushes.Blue), x, y, size, size);
+            ball.Render(); //выводим то, что отрисовано в буфере
+            return ball;
+        }
+        
+        public void TileBreak(string soundDir)
+        {
+            var random = new Random();
+            var rndInt = random.Next(0, 5);
+            var sound = "pong_gha.wav";
+            if (rndInt == 1) sound = "pong_hoba.wav";
+            else if (rndInt == 2) sound = "pong_hoba!.wav";
+            else if (rndInt == 3) sound = "pong_hobaaa.wav";
+            else if (rndInt == 4) sound = "pong_hop.wav";
+            
+            var player = new SoundPlayer(soundDir + sound);
+            player.Play();
+        }
+
+        public void PlayGameOverSound(string soundDir)
+        {
+            var player = new SoundPlayer(soundDir + "fail_sound.wav");
+            player.Play();
+        }
+    }
+
     public partial class Arkanoid : Form
     {
+        private GameVisual _gameVisual;
         private string soundDir = Path.GetDirectoryName(Application.ExecutablePath).Replace(@"bin\Debug", @"Sounds\");
         
         private bool isKeyLeftPressed;
         private bool isKeyRightPressed;
 
-        public readonly int Level;
-        public readonly int Difficulty;
+        private readonly int Level;
+        private readonly int Difficulty;
 
         private readonly int _platformWidth;
         private readonly int _platformPosition;
@@ -70,17 +160,21 @@ namespace rndomNamespace
         private int _coordinateY; //
 
         private Timer timer1 = new Timer();
-
         private Timer timer2 = new Timer();
+        
+        private PictureBox mainMenu = new PictureBox();
+        private PictureBox retry = new PictureBox();
 
         private PictureBox[,] _level;
         private int[] _levelSize;
 
-        private int _score = 0;
+        private int _score;
 
         public Arkanoid(GameModel gameModel)
         {
             InitializeComponent();
+
+            _gameVisual = new GameVisual(this); 
 
             winScreen.Visible = false;
             winScreen.Size = new Size(800, 800);
@@ -103,7 +197,7 @@ namespace rndomNamespace
             _platformPosition = _windowHeight - 100;
             int platformWidth = gameModel.PlatformWidth;
             int platformHeight = gameModel.PlatformHeight;
-            if (platformWidth == 131) platform1.Image = Properties.Resources.platform1;
+            platform1.Image = Resources.platform1;
             platform1.Size = new Size(platformWidth, platformHeight);
             platform1.Location = new Point(_windowWidth / 2 - platformWidth / 2, _platformPosition);
             _platformWidth = platformWidth;
@@ -115,16 +209,16 @@ namespace rndomNamespace
             _coordinateX = _windowWidth / 2 - _ballSize / 2;
             _coordinateY = _windowHeight - 100 - gameModel.BallSpeed - _ballSize;
 
-            PictureBox tile = new PictureBox();
+            var tile = new PictureBox();
 
-            tile.Image = Properties.Resources.tile;
+            tile.Image = Resources.tile;
             tile.Size = new Size(50, 20);
             tile.Location = new Point(100, 100);
 
             string[,] levelStruct = gameModel.LevelStruct;
             LevelBuilder(levelStruct);
             
-            gameOverScreen.Image = Properties.Resources.bg;
+            gameOverScreen.Image = Resources.bg;
             gameOverScreen.Location = new Point(0, 0);
             gameOverScreen.Size = new Size(1920, 1080);
             gameOverScreen.Visible = false;
@@ -140,7 +234,7 @@ namespace rndomNamespace
             timer2.Tick += Elapsed;
             timer2.Start();
             
-            InitializeGraphics();
+            ball = _gameVisual.InitializeGraphics();
 
             KeyDown += Arkanoid_KeyDown;
             KeyUp += Arkanoid_KeyUp;
@@ -153,40 +247,24 @@ namespace rndomNamespace
             Dispose();
         }
 
-        private void InitializeGraphics()
-        {
-            BufferedGraphicsContext context = new BufferedGraphicsContext();
-            ball = context.Allocate(CreateGraphics(), ClientRectangle);
-            context.MaximumBuffer = ClientRectangle.Size;
-        }
-
         private void Elapsed(object sender, EventArgs e)
         {
             _coordinateX += _speedX; // Движение по х
             _coordinateY += _speedY; // Движение по y 
+            
             if (_coordinateX <= 0 || _coordinateX + _ballSize >= _windowWidth - 19)
-            {
                 _speedX = -_speedX;
-            }
 
             if (platform1.Location.X <= _coordinateX + _ballSize / 2 && platform1.Location.X + _platformWidth >= _coordinateX + _ballSize / 2 &&
                 platform1.Location.Y == _coordinateY + _ballSize)
-            {
                 _speedY = -_speedY;
-            }
 
             if (_coordinateY <= 0)
-            {
                 _speedY = -_speedY;
-            }
 
             if (ball.Graphics != null)
-            {
-                ball.Graphics.Clear(BackColor);
-                ball.Graphics.DrawEllipse(new Pen(Brushes.Blue), _coordinateX, _coordinateY, _ballSize, _ballSize);
-                ball.Render(); //выводим то, что отрисовано в буфере
-            }
-
+                ball = _gameVisual.UpdateGraphics(_coordinateX, _coordinateY, _ballSize);
+            
             var isLevelComplete = true;
             
             for (int i = 0; i < _level.GetUpperBound(0) + 1; i++)
@@ -219,49 +297,30 @@ namespace rndomNamespace
                     }
                 }
             }
+
+            var isGameOver = false;
             
             if (_coordinateY + _ballSize >= _windowHeight - _ballSize)
             {
-                BackColor = Color.Black;
                 platform1.Visible = false;
+                _gameVisual.PlayGameOverSound(soundDir);
                 
-                var player = new SoundPlayer(soundDir + "fail_sound.wav");
-                player.Play();
-
-                PictureBox mainMenu = new PictureBox();
-                PictureBox retry = new PictureBox();
-                PictureBox youDead = new PictureBox();
-                
-                youDead.Size = new Size(884, 224);
-                youDead.Location = new Point(_windowWidth / 2 - youDead.Size.Width / 2, _windowHeight / 8);
-                youDead.Image = Resources.you_died;
-                Controls.Add(youDead);
-                youDead.BringToFront();
-                
-                InitializeEndButtons(mainMenu, retry);
-                
-                retry.Click += retry_click;
-                mainMenu.Click += mainMenu_click;
-
-                 // в планах запилить менюшку с Начать заново / Главное меню / Ваш рекорд
+                _gameVisual.GameFailed(_windowWidth, _windowHeight, mainMenu, retry);
+                isGameOver = true;
+                // в планах запилить менюшку с Начать заново / Главное меню / Ваш рекорд
             }
 
             if (isLevelComplete)
             {
-                PictureBox mainMenu = new PictureBox();
-                PictureBox retry = new PictureBox();
-                
                 winScreen.Visible = true;
+                _gameVisual.GameFinished(scoreLable, _score, Difficulty, _windowWidth, _windowHeight, mainMenu, retry);
+                isGameOver = true;
+            }
 
-                scoreLable.Visible = true;
-                scoreLable.Text = "Your score: " + _score * Difficulty;
-                scoreLable.Size = new Size(200, 50);
-                scoreLable.Location = new Point(_windowWidth / 2 - scoreLable.Size.Width / 2, _windowHeight / 8);
-                scoreLable.Show();
-                scoreLable.BringToFront();
-                
-                InitializeEndButtons(mainMenu, retry);
-                
+            if (isGameOver)
+            {
+                timer1.Stop();
+                timer2.Stop();
                 retry.Click += retry_click;
                 mainMenu.Click += mainMenu_click;
             }
@@ -276,37 +335,7 @@ namespace rndomNamespace
             else
                 _speedY = -_speedY;
             
-            var random = new Random();
-            var rndInt = random.Next(0, 5);
-            var sound = "pong_gha.wav";
-            if (rndInt == 1) sound = "pong_hoba.wav";
-            else if (rndInt == 2) sound = "pong_hoba!.wav";
-            else if (rndInt == 3) sound = "pong_hobaaa.wav";
-            else if (rndInt == 4) sound = "pong_hop.wav";
-            
-            var player = new SoundPlayer(soundDir + sound);
-            player.Play();
-        }
-
-        private void InitializeEndButtons(PictureBox mainMenu, PictureBox retry)
-        {
-            mainMenu.Size = new Size(148, 55);
-            retry.Size = new Size(182, 56);
-            
-            mainMenu.Location = new Point(_windowWidth / 2 - mainMenu.Size.Width / 2, (_windowHeight * 3) / 4 - 30);
-            retry.Location = new Point(_windowWidth / 2 - retry.Size.Width / 2, _windowHeight / 2 - 30);
-            
-            mainMenu.Image = Resources.game_exit;
-            retry.Image = Resources.game_restart;
-            
-            Controls.Add(mainMenu);
-            Controls.Add(retry);
-            
-            mainMenu.BringToFront();
-            retry.BringToFront();
-            
-            timer1.Stop();
-            timer2.Stop();
+            _gameVisual.TileBreak(soundDir);
         }
 
         private void retry_click(object sender, EventArgs e)
@@ -377,7 +406,7 @@ namespace rndomNamespace
                     if (levelStruct[i, j] == "*")
                     {
                         PictureBox tile = new PictureBox();
-                        tile.Image = Properties.Resources.tile;
+                        tile.Image = Resources.tile;
                         tile.Size = new Size(width, height);
                         tile.Location = new Point(120 + i * (width + 5), 100 + j * (height + 5));
 
@@ -397,22 +426,6 @@ namespace rndomNamespace
 
             _levelSize[0] -= 5;
             _levelSize[1] -= 5;
-        }
-
-        private void DrawTiles(Graphics g)
-        {
-            /*for (int i = 0; i < UPPER; i++)
-            {
-                for (int j = 0; j < UPPER; j++)
-                {
-                    
-                }
-            }*/
-        }
-
-        private void OnPaint(object sender, PaintEventArgs e)
-        {
-            DrawTiles(e.Graphics);
         }
     }
 }
