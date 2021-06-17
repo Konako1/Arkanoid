@@ -78,7 +78,7 @@ namespace rndomNamespace
         public void GameFinished(Label scoreLable, int score, int diff, int width, int height,  PictureBox mainMenu, PictureBox retry)
         {
             scoreLable.Visible = true;
-            scoreLable.Text = "Your score: " + score * diff;
+            scoreLable.Text = "Ваш счёт: " + score * diff;
             scoreLable.Size = new Size(200, 50);
             scoreLable.Location = new Point(width / 2 - scoreLable.Size.Width / 2, height / 8);
             scoreLable.Show();
