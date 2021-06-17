@@ -8,12 +8,7 @@ namespace rndomNamespace
         public int Speed
         {
             get => _speed;
-            private set
-            {
-                if (value == 1) _speed = 2; // пока выбраны условные значения, возможно изменятся в будущем
-                if (value == 2) _speed = 4;
-                if (value == 3) _speed = 6;
-            }
+            private set => _speed = value * 2;
         }
 
         public int Size => size;
